@@ -1,5 +1,6 @@
 package udem.edu.co.miSuperHeroeSAS.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,7 @@ public class Identification {
 
     @OneToOne
     @JoinColumn(name = "heroe_id")
+    @JsonBackReference
     private Hero hero;
 
     public Identification() {

@@ -1,5 +1,6 @@
 package udem.edu.co.miSuperHeroeSAS.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -20,9 +21,11 @@ public class Hero {
     private String fotoUrlHero;  // Para almacenar la URL de la foto
 
     @OneToOne(mappedBy = "hero", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Identification identification;
 
     @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Power> powers;
 
     public Hero() {

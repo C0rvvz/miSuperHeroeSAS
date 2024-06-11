@@ -1,5 +1,6 @@
 package udem.edu.co.miSuperHeroeSAS.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class Power {
 
     @ManyToOne
     @JoinColumn(name = "heroe_id")
+    @JsonBackReference
     private Hero hero;
 
     public Power() {

@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import udem.edu.co.miSuperHeroeSAS.entities.Hero;
 import udem.edu.co.miSuperHeroeSAS.entities.Identification;
 import udem.edu.co.miSuperHeroeSAS.entities.Power;
@@ -193,22 +195,40 @@ class HeroServiceImplTest {
     @Test
     void updateHeroWithData() throws IOException {
         // Simular el repositorio no encontrando el héroe con el ID dado
-        when(heroRepository.findById(hero.getIdHero())).thenReturn(Optional.empty());
+        Long idHero = 1L;
+        Hero hero = new Hero(); // Asegúrate de inicializar con datos relevantes para el test
+        hero.setIdHero(idHero);
 
-        // Llamar al método de servicio para actualizar el héroe y verificar que lanza una IOException
-        assertThrows(IOException.class, () -> heroService.updateHero(hero.getIdHero(), hero));
+        when(heroRepository.findById(idHero)).thenReturn(Optional.empty());
+
+        // Llamar al método de servicio para actualizar el héroe y verificar que lanza una ResponseStatusException
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> heroService.updateHero(idHero, hero));
+
+        // Verificar que el código de estado de la excepción es NOT_FOUND
+        assertEquals(HttpStatus.NOT_FOUND.value(), exception.getStatusCode().value());
+
+        // Verificar que el mensaje de la excepción contiene "Hero not found with id 1"
+        assertTrue(exception.getReason().contains("Hero not found with id " + idHero));
 
         // Verificar que el método del repositorio no se llamó para guardar
         verify(heroRepository, never()).save(any(Hero.class));
     }
 
     @Test
-    void updateHeroNull() throws IOException {
+    void updateHeroNull() {
         // Simular el repositorio no encontrando el héroe con el ID dado
-        when(heroRepository.findById(null)).thenReturn(Optional.empty());
+        Long idHero = null;
 
-        // Llamar al método de servicio para actualizar el héroe y verificar que lanza una IOException
-        assertThrows(IOException.class, () -> heroService.updateHero(null, null));
+        when(heroRepository.findById(idHero)).thenReturn(Optional.empty());
+
+        // Llamar al método de servicio para actualizar el héroe y verificar que lanza una ResponseStatusException
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> heroService.updateHero(idHero, null));
+
+        // Verificar que el código de estado de la excepción es NOT_FOUND
+        assertEquals(HttpStatus.NOT_FOUND.value(), exception.getStatusCode().value());
+
+        // Verificar que el mensaje de la excepción contiene "Hero not found with id null"
+        assertTrue(exception.getReason().contains("Hero not found with id null"));
 
         // Verificar que el método del repositorio no se llamó para guardar
         verify(heroRepository, never()).save(any(Hero.class));

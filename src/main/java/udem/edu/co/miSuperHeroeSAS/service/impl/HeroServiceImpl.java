@@ -1,8 +1,11 @@
 package udem.edu.co.miSuperHeroeSAS.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import udem.edu.co.miSuperHeroeSAS.entities.Hero;
+import udem.edu.co.miSuperHeroeSAS.entities.Identification;
 import udem.edu.co.miSuperHeroeSAS.repository.HeroRepository;
 import udem.edu.co.miSuperHeroeSAS.service.HeroService;
 
@@ -99,12 +102,28 @@ public class HeroServiceImpl implements HeroService {
     }
 
     @Override
-    public Hero updateHero(Long idHero, Hero hero) throws IOException {
-        Optional<Hero> existingHero = heroRepository.findById(idHero);
-        if (existingHero.isPresent()) {
-            return heroRepository.save(existingHero.get());
-        } else {
-            throw new IOException("No se ha encontrado un Heroe con ese ID: " + idHero);
+    public Hero updateHero(Long idHero, Hero heroDetails) throws IOException {
+        Hero hero = heroRepository.findById(idHero)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hero not found with id " + idHero));
+
+        try {
+            hero.setNombreHero(heroDetails.getNombreHero());
+            hero.setAliasHero(heroDetails.getAliasHero());
+            hero.setFechaCreacionHero(heroDetails.getFechaCreacionHero());
+            hero.setEstadoHero(heroDetails.getEstadoHero());
+            hero.setFotoUrlHero(heroDetails.getFotoUrlHero());
+
+            Identification identification = heroDetails.getIdentification();
+            if (identification != null) {
+                identification.setHero(hero);
+                hero.setIdentification(identification);
+            }
+
+            hero.setPowers(heroDetails.getPowers());
+
+            return heroRepository.save(hero);
+        } catch (Exception e) {
+            throw new IOException("Error updating hero", e);
         }
     }
 

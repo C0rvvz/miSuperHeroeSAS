@@ -1,7 +1,9 @@
 package udem.edu.co.miSuperHeroeSAS.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import udem.edu.co.miSuperHeroeSAS.entities.Hero;
 import udem.edu.co.miSuperHeroeSAS.service.HeroService;
 
@@ -46,7 +48,7 @@ public class HeroController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getHeroe/aliasHero/{aliasHero}")
+    @GetMapping("/getHero/aliasHero/{aliasHero}")
     public Optional<Hero> findHeroeByAliasHero(@PathVariable("aliasHero") String aliasHero){
         try {
             return this.heroService.findByAliasHero(aliasHero);
@@ -60,7 +62,7 @@ public class HeroController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getHeroe/nombreHero/{nombreHero}")
+    @GetMapping("/getHero/nombreHero/{nombreHero}")
     public Optional<Hero> findHeroeByNombreHero(@PathVariable("nombreHero") String nombreHero){
         try {
             return this.heroService.findByNombreHero(nombreHero);
@@ -74,7 +76,7 @@ public class HeroController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getHeroe/fechaCreacionHero/{fechaCreacionHero}")
+    @GetMapping("/getHero/fechaCreacionHero/{fechaCreacionHero}")
     public Optional<Hero> findHeroeByFechaCreacionHero(@PathVariable("fechaCreacionHero") LocalDate fechaCreacionHero){
         try {
             return this.heroService.findByFechaCreacionHero(fechaCreacionHero);
@@ -88,7 +90,7 @@ public class HeroController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getHeroe/estadoHero/{estadoHero}")
+    @GetMapping("/getHero/estadoHero/{estadoHero}")
     public Optional<Hero> findHeroeByEstadoHero(@PathVariable("estadoHero") String estadoHero){
         try {
             return this.heroService.findByEstadoHero(estadoHero);
@@ -102,7 +104,7 @@ public class HeroController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getHeroe/fotoUrlHero/{fotoUrlHero}")
+    @GetMapping("/getHero/fotoUrlHero/{fotoUrlHero}")
     public Optional<Hero> findHeroeByFotoUrlHero(@PathVariable("fotoUrlHero") String fotoUrlHero){
         try {
             return this.heroService.findByFotoUrlHero(fotoUrlHero);
@@ -127,18 +129,23 @@ public class HeroController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/putHeroe/{idHero}")
-    public Hero updateHero(@PathVariable("idHero") Long idHero , @RequestBody() Hero hero){
+    @PutMapping("/putHero/{idHero}")
+    public ResponseEntity<Hero> updateHero(@PathVariable("idHero") Long idHero, @RequestBody Hero heroDetails) {
         try {
-            return this.heroService.updateHero(idHero, hero);
+            Hero updatedHero = heroService.updateHero(idHero, heroDetails);
+            return ResponseEntity.ok(updatedHero);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(null);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            System.err.println("ERROR: " + e.getMessage());
+            return ResponseEntity.status(500).build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/deleteHeroe/{idHero}")
+    @DeleteMapping("/deleteHero/{idHero}")
     public void deleteHeroe(@PathVariable("idHero") Long idHero){
         try {
             this.heroService.deleteHero(idHero);

@@ -52,7 +52,7 @@ class PowerServiceImplTest {
         power = new Power();
         power.setIdPower(1L);
         power.setNombrePower("correr");
-        power.setDescripcionPower("Gives the hero superhuman strength");
+        power.setDescripcionPower("el man corre resto");
         power.setNivelPower(5);
         power.setFechaAdquisicionPower(LocalDate.of(2024, 1, 1));
         power.setHero(hero);
