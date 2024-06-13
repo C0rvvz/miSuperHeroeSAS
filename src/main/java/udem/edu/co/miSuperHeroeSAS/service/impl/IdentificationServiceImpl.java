@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import udem.edu.co.miSuperHeroeSAS.entities.Hero;
 import udem.edu.co.miSuperHeroeSAS.entities.Identification;
 import udem.edu.co.miSuperHeroeSAS.repository.IdentificationRepository;
 import udem.edu.co.miSuperHeroeSAS.service.IdentificationService;
@@ -43,15 +42,6 @@ public class IdentificationServiceImpl implements IdentificationService {
             return identificationRepository.findByTipoIdentification(tipoIdentification);
         } catch (Exception e) {
             throw new IOException("Error al buscar el tipo de la identificacion: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public Optional<Identification> findByNumeroIdentification(String numeroIdentification) throws IOException, SQLException {
-        try {
-            return identificationRepository.findByNumeroIdentification(numeroIdentification);
-        } catch (Exception e) {
-            throw new IOException("Error al buscar el numero de la identificacion: " + e.getMessage());
         }
     }
 

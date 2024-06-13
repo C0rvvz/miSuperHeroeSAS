@@ -58,19 +58,6 @@ public class IdentificationController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getIdentification/numeroIdentification/{numeroIdentification}")
-    public Optional<Identification> findByNumeroIdentification(@PathVariable("numeroIdentification") String numeroIdentification){
-        try {
-            return this.identificationService.findByNumeroIdentification(numeroIdentification);
-        } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
-        } catch (SQLException e) {
-            System.err.println("ERROR: El numero no existe:\n");
-            return null;
-        }
-    }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getIdentification/descripcionIdentification/{descripcionIdentification}")

@@ -13,7 +13,6 @@ public interface IdentificationService {
     public List<Identification> findAllIdentifications() throws IOException, SQLException;
     public Optional<Identification> findByIdIdentification(Long idIdentification) throws IOException, SQLException;
     public Optional<Identification> findByTipoIdentification(String tipoIdentification) throws IOException, SQLException;
-    public Optional<Identification> findByNumeroIdentification(String numeroIdentification) throws IOException, SQLException;
     public Optional<Identification> findByDescripcionIdentification(String descripcionIdentification) throws IOException, SQLException;
     public Identification createIdentification(Identification identification) throws IOException;
     public Identification updateIdentification(Long idIdentification, Identification identification) throws IOException;

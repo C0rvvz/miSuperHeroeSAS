@@ -13,9 +13,6 @@ public interface IdentificationRepository extends JpaRepository<Identification, 
     @Query("SELECT i FROM Identification i WHERE i.tipoIdentification = :tipoIdentification")
     Optional<Identification> findByTipoIdentification(@Param("tipoIdentification") String tipoIdentification);
 
-    @Query("SELECT i FROM Identification i WHERE i.numeroIdentification = :numeroIdentification")
-    Optional<Identification> findByNumeroIdentification(@Param("numeroIdentification") String numeroIdentification);
-
     @Query("SELECT i FROM Identification i WHERE i.descripcionIdentification = :descripcionIdentification")
     Optional<Identification> findByDescripcionIdentification(@Param("descripcionIdentification") String descripcionIdentification);
 }
