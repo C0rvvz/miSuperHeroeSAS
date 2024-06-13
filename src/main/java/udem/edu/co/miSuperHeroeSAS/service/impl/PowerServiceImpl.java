@@ -1,7 +1,9 @@
 package udem.edu.co.miSuperHeroeSAS.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import udem.edu.co.miSuperHeroeSAS.entities.Power;
 import udem.edu.co.miSuperHeroeSAS.repository.PowerRepository;
 import udem.edu.co.miSuperHeroeSAS.service.PowerService;
@@ -83,14 +85,23 @@ public class PowerServiceImpl implements PowerService {
     }
 
     @Override
-    public Power updatePower(Long idPower, Power power) throws IOException {
-        Optional<Power> existingPower = powerRepository.findById(idPower);
-        if (existingPower.isPresent()) {
-            return powerRepository.save(existingPower.get());
-        } else {
-            throw new IOException("No se ha encontrado un Poder con ese ID: " + idPower);
+    public Power updatePower(Long idPower, Power powerDetails) throws IOException {
+        Power power = powerRepository.findById(idPower)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Poder no encontrado con el id " + idPower));
+
+        try {
+            power.setNombrePower(powerDetails.getNombrePower());
+            power.setFechaAdquisicionPower(powerDetails.getFechaAdquisicionPower());
+            power.setNivelPower(powerDetails.getNivelPower());
+            power.setDescripcionPower(powerDetails.getDescripcionPower());
+            power.setHero(powerDetails.getHero());
+
+            return powerRepository.save(power);
+        } catch (Exception e) {
+            throw new IOException("Error al actualizar el poder", e);
         }
     }
+
 
     @Override
     public void deletePower(Long idPower) throws IOException {

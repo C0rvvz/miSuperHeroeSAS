@@ -18,7 +18,7 @@ public class Hero {
     private String aliasHero;
     private LocalDate fechaCreacionHero;
     private String estadoHero;
-    private String fotoUrlHero;  // Para almacenar la URL de la foto
+    private String fotoUrlHero;
 
     @OneToOne(mappedBy = "hero", cascade = CascadeType.ALL)
     @JsonManagedReference

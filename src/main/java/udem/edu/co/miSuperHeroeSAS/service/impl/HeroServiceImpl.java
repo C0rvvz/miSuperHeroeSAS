@@ -86,7 +86,7 @@ public class HeroServiceImpl implements HeroService {
             return heroRepository.findByFotoUrlHero(fotoUrlHero);
         } catch (Exception e) {
             // Manejo general para otras excepciones
-            throw new IOException("Error al buscar héroe por URL de foto: " + e.getMessage());
+            throw new IOException("Error al buscar heroe por URL de foto: " + e.getMessage());
         }
     }
 
@@ -104,7 +104,7 @@ public class HeroServiceImpl implements HeroService {
     @Override
     public Hero updateHero(Long idHero, Hero heroDetails) throws IOException {
         Hero hero = heroRepository.findById(idHero)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hero not found with id " + idHero));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Heroe no encontrado con el id " + idHero));
 
         try {
             hero.setNombreHero(heroDetails.getNombreHero());
@@ -123,7 +123,7 @@ public class HeroServiceImpl implements HeroService {
 
             return heroRepository.save(hero);
         } catch (Exception e) {
-            throw new IOException("Error updating hero", e);
+            throw new IOException("Error al actualizar el heroe", e);
         }
     }
 

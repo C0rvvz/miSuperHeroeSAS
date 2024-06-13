@@ -1,7 +1,10 @@
 package udem.edu.co.miSuperHeroeSAS.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import udem.edu.co.miSuperHeroeSAS.entities.Hero;
 import udem.edu.co.miSuperHeroeSAS.entities.Identification;
 import udem.edu.co.miSuperHeroeSAS.repository.IdentificationRepository;
 import udem.edu.co.miSuperHeroeSAS.service.IdentificationService;
@@ -72,12 +75,17 @@ public class IdentificationServiceImpl implements IdentificationService {
     }
 
     @Override
-    public Identification updateIdentification(Long idIdentification, Identification identification) throws IOException {
-        Optional<Identification> existingIdentification = identificationRepository.findById(idIdentification);
-        if (existingIdentification.isPresent()) {
-            return identificationRepository.save(existingIdentification.get());
-        } else {
-            throw new IOException("No se ha encontrado una identificacion con ese ID: " + idIdentification);
+    public Identification updateIdentification(Long idIdentification, Identification identificationDetails) throws IOException {
+        Identification identification = identificationRepository.findById(idIdentification)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Identaficacion no encontrada con el id " + idIdentification));
+
+        try {
+            identification.setTipoIdentification(identificationDetails.getTipoIdentification());
+            identification.setDescripcionIdentification(identificationDetails.getDescripcionIdentification());
+
+            return identificationRepository.save(identification);
+        } catch (Exception e) {
+            throw new IOException("Error al actualizar la identificacion", e);
         }
     }
 

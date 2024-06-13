@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import udem.edu.co.miSuperHeroeSAS.entities.Hero;
 import udem.edu.co.miSuperHeroeSAS.entities.Identification;
 import udem.edu.co.miSuperHeroeSAS.repository.IdentificationRepository;
@@ -51,7 +53,6 @@ class IdentificationServiceImplTest {
         // Configuración de la identificación
         identification = new Identification();
         identification.setIdIdentification(1L);
-        identification.setNumeroIdentification("123456");
         identification.setTipoIdentification("cedula");
         identification.setDescripcionIdentification("documento de identidad");
 
@@ -109,18 +110,6 @@ class IdentificationServiceImplTest {
     }
 
     @Test
-    void findByNumeroIdentificationWithData() throws SQLException, IOException {
-        when(identificationRepository.findByNumeroIdentification(identification.getNumeroIdentification())).thenReturn(Optional.of(identification));
-        assertNotNull(identificationService.findByNumeroIdentification(identification.getNumeroIdentification()));
-    }
-
-    @Test
-    void findByNumeroIdentificationNull() throws SQLException, IOException {
-        when(identificationRepository.findByNumeroIdentification(identification.getNumeroIdentification())).thenReturn(null);
-        assertNull(identificationService.findByNumeroIdentification(identification.getNumeroIdentification()));
-    }
-
-    @Test
     void findByDescripcionIdentificationWithData() throws SQLException, IOException {
         when(identificationRepository.findByDescripcionIdentification(identification.getDescripcionIdentification())).thenReturn(Optional.of(identification));
         assertNotNull(identificationService.findByDescripcionIdentification(identification.getDescripcionIdentification()));
@@ -148,18 +137,25 @@ class IdentificationServiceImplTest {
     }
 
     @Test
-    void updateIdentificationWithData() throws IOException{
-        when(identificationRepository.findById(identification.getIdIdentification())).thenReturn(Optional.empty());
-        assertThrows(IOException.class, () -> identificationService.updateIdentification(identification.getIdIdentification(), identification));
+    void updateIdentificationWithData() {
+        Long idIdentification = 1L;
+        Identification identification = new Identification();
+        identification.setIdIdentification(idIdentification);
+        when(identificationRepository.findById(idIdentification)).thenReturn(Optional.empty());
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> identificationService.updateIdentification(idIdentification, identification));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
         verify(identificationRepository, never()).save(any(Identification.class));
     }
 
     @Test
-    void updateIdentificationNull() throws IOException{
-        when(identificationRepository.findById(null)).thenReturn(Optional.empty());
-        assertThrows(IOException.class, () -> identificationService.updateIdentification(null, null));
+    void updateIdentificationNull() {
+        Long idIdentification = null;
+        when(identificationRepository.findById(idIdentification)).thenReturn(Optional.empty());
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> identificationService.updateIdentification(idIdentification, null));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
         verify(identificationRepository, never()).save(any(Identification.class));
     }
+
 
     @Test
     void deleteIdentificationWithData() throws IOException{

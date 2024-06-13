@@ -57,7 +57,6 @@ class HeroServiceImplTest {
         // Configuración de la identificación
         identification = new Identification();
         identification.setIdIdentification(1L);
-        identification.setNumeroIdentification("123456");
         identification.setTipoIdentification("cedula");
         identification.setDescripcionIdentification("documento de identidad");
         hero.setIdentification(identification);
@@ -216,7 +215,6 @@ class HeroServiceImplTest {
 
     @Test
     void updateHeroNull() {
-        // Simular el repositorio no encontrando el héroe con el ID dado
         Long idHero = null;
 
         when(heroRepository.findById(idHero)).thenReturn(Optional.empty());

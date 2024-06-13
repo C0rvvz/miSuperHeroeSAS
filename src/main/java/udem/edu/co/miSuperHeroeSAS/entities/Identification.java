@@ -12,7 +12,6 @@ public class Identification {
     private Long idIdentification;
 
     private String tipoIdentification;
-    private String numeroIdentification;
     private String descripcionIdentification;
 
     @OneToOne
@@ -23,12 +22,11 @@ public class Identification {
     public Identification() {
     }
 
-    public Identification(Long idIdentification, String tipoIdentification, String numeroIdentification, String descripcionIdentification, Hero hero) {
+    public Identification(Long idIdentification, String tipoIdentification, Hero hero, String descripcionIdentification) {
         this.idIdentification = idIdentification;
         this.tipoIdentification = tipoIdentification;
-        this.numeroIdentification = numeroIdentification;
-        this.descripcionIdentification = descripcionIdentification;
         this.hero = hero;
+        this.descripcionIdentification = descripcionIdentification;
     }
 
     public Long getIdIdentification() {
@@ -45,14 +43,6 @@ public class Identification {
 
     public void setTipoIdentification(String tipoIdentification) {
         this.tipoIdentification = tipoIdentification;
-    }
-
-    public String getNumeroIdentification() {
-        return numeroIdentification;
-    }
-
-    public void setNumeroIdentification(String numeroIdentification) {
-        this.numeroIdentification = numeroIdentification;
     }
 
     public String getDescripcionIdentification() {

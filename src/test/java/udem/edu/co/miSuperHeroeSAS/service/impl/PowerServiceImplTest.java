@@ -8,7 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import udem.edu.co.miSuperHeroeSAS.entities.Hero;
+import udem.edu.co.miSuperHeroeSAS.entities.Identification;
 import udem.edu.co.miSuperHeroeSAS.entities.Power;
 import udem.edu.co.miSuperHeroeSAS.repository.PowerRepository;
 
@@ -158,16 +161,23 @@ class PowerServiceImplTest {
     }
 
     @Test
-    void updatePowerWithData() throws IOException{
-        when(powerRepository.findById(power.getIdPower())).thenReturn(Optional.empty());
-        assertThrows(IOException.class, () -> powerService.updatePower(power.getIdPower(), power));
+    void updatePowerWithData() {
+        Long idPower = 1L;
+        Power power = new Power();
+        power.setIdPower(idPower);
+        when(powerRepository.findById(idPower)).thenReturn(Optional.empty());
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> powerService.updatePower(idPower, power));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
         verify(powerRepository, never()).save(any(Power.class));
     }
 
     @Test
-    void updatePowerNull() throws IOException{
-        when(powerRepository.findById(null)).thenReturn(Optional.empty());
-        assertThrows(IOException.class, () -> powerService.updatePower(null, null));
+    void updatePowerNull() {
+        Long idPower = null;
+
+        when(powerRepository.findById(idPower)).thenReturn(Optional.empty());
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> powerService.updatePower(idPower, null));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
         verify(powerRepository, never()).save(any(Power.class));
     }
 
