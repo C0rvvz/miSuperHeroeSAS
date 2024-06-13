@@ -1,6 +1,8 @@
 package udem.edu.co.miSuperHeroeSAS.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import udem.edu.co.miSuperHeroeSAS.entities.Power;
 import udem.edu.co.miSuperHeroeSAS.service.PowerService;
@@ -11,125 +13,113 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/power")
 public class PowerController {
     @Autowired
     PowerService powerService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @GetMapping("/getPower")
-    public List<Power> findAllPowers(){
+    public ResponseEntity<List<Power>> findAllPowers() {
         try {
-            return this.powerService.findAllPowers();
+            List<Power> powers = powerService.findAllPowers();
+            return ResponseEntity.ok(powers);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: No existen poderes:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getPower/{idPower}")
-    public Optional<Power> findByIdPower(@PathVariable("idPower") Long idPower) {
+    @GetMapping("/getPower/idPower/{idPower}")
+    public ResponseEntity<Optional<Power>> findByIdPower(@PathVariable("idPower") Long idPower) {
         try {
-            return this.powerService.findByIdPower(idPower);
+            Optional<Power> power = powerService.findByIdPower(idPower);
+            return ResponseEntity.ok(power);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El id no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getPower/nombrePower/{nombrePower}")
-    public Optional<Power> findByNombrePower(@PathVariable("nombrePower") String nombrePower){
+    public ResponseEntity<Optional<Power>> findByNombrePower(@PathVariable("nombrePower") String nombrePower) {
         try {
-            return this.powerService.findByNombrePower(nombrePower);
+            Optional<Power> power = powerService.findByNombrePower(nombrePower);
+            return ResponseEntity.ok(power);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El alias no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getPower/fechaAdquisicionPower/{fechaAdquisicionPower}")
-    public Optional<Power> findByFechaAdquisicionPower(@PathVariable("fechaAdquisicionPower") LocalDate fechaAdquisicionPower){
+    public ResponseEntity<Optional<Power>> findByFechaAdquisicionPower(@PathVariable("fechaAdquisicionPower") LocalDate fechaAdquisicionPower) {
         try {
-            return this.powerService.findByFechaAdquisicionPower(fechaAdquisicionPower);
+            Optional<Power> power = powerService.findByFechaAdquisicionPower(fechaAdquisicionPower);
+            return ResponseEntity.ok(power);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El alias no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getPower/nivelPower/{nivelPower}")
-    public Optional<Power> findByNivelPower(@PathVariable("nivelPower") int nivelPower){
+    public ResponseEntity<Optional<Power>> findByNivelPower(@PathVariable("nivelPower") int nivelPower) {
         try {
-            return this.powerService.findByNivelPower(nivelPower);
+            Optional<Power> power = powerService.findByNivelPower(nivelPower);
+            return ResponseEntity.ok(power);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El alias no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getPower/descripcionPower/{descripcionPower}")
-    public Optional<Power> findByDescripcionPower(@PathVariable("descripcionPower") String descripcionPower){
+    public ResponseEntity<Optional<Power>> findByDescripcionPower(@PathVariable("descripcionPower") String descripcionPower) {
         try {
-            return this.powerService.findByDescripcionPower(descripcionPower);
+            Optional<Power> power = powerService.findByDescripcionPower(descripcionPower);
+            return ResponseEntity.ok(power);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El alias no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/createPower")
-    public Power createPower(@RequestBody() Power power){
+    @PostMapping("/postPower")
+    public ResponseEntity<Power> createPower(@RequestBody Power power) {
         try {
-            return this.powerService.createPower(power);
+            Power createdPower = powerService.createPower(power);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdPower);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/putPower/{idPower}")
-    public Power updatePower(@PathVariable("idPower") Long idPower , @RequestBody() Power power){
+    public ResponseEntity<Power> updatePower(@PathVariable("idPower") Long idPower, @RequestBody Power power) {
         try {
-            return this.powerService.updatePower(idPower, power);
+            Power updatedPower = powerService.updatePower(idPower, power);
+            return ResponseEntity.ok(updatedPower);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/deletePower/{idPower}")
-    public void deletePower(@PathVariable("idPower") Long idPower){
+    public ResponseEntity<Void> deletePower(@PathVariable("idPower") Long idPower) {
         try {
-            this.powerService.deletePower(idPower);
+            powerService.deletePower(idPower);
+            return ResponseEntity.noContent().build();
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

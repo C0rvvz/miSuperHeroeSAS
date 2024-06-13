@@ -1,6 +1,7 @@
 package udem.edu.co.miSuperHeroeSAS.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,122 +14,107 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/hero")
 public class HeroController {
     @Autowired
     HeroService heroService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getHero")
-    public List<Hero> findAllHeros(){
+    public ResponseEntity<List<Hero>> findAllHeros() {
         try {
-            return this.heroService.findAllHeros();
+            List<Hero> heroes = heroService.findAllHeros();
+            return ResponseEntity.ok(heroes);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: No existen heroes:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getHero/{idHero}")
-    public Optional<Hero> findByIdHero(@PathVariable("idHero") Long idHero) {
+    @GetMapping("/getHero/idHero/{idHero}")
+    public ResponseEntity<Optional<Hero>> findByIdHero(@PathVariable("idHero") Long idHero) {
         try {
-            return this.heroService.findByIdHero(idHero);
+            Optional<Hero> hero = heroService.findByIdHero(idHero);
+            return ResponseEntity.ok(hero);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El id no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getHero/aliasHero/{aliasHero}")
-    public Optional<Hero> findHeroeByAliasHero(@PathVariable("aliasHero") String aliasHero){
+    public ResponseEntity<Optional<Hero>> findHeroeByAliasHero(@PathVariable("aliasHero") String aliasHero) {
         try {
-            return this.heroService.findByAliasHero(aliasHero);
+            Optional<Hero> hero = heroService.findByAliasHero(aliasHero);
+            return ResponseEntity.ok(hero);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El alias no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getHero/nombreHero/{nombreHero}")
-    public Optional<Hero> findHeroeByNombreHero(@PathVariable("nombreHero") String nombreHero){
+    public ResponseEntity<Optional<Hero>> findHeroeByNombreHero(@PathVariable("nombreHero") String nombreHero) {
         try {
-            return this.heroService.findByNombreHero(nombreHero);
+            Optional<Hero> hero = heroService.findByNombreHero(nombreHero);
+            return ResponseEntity.ok(hero);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El nombre no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getHero/fechaCreacionHero/{fechaCreacionHero}")
-    public Optional<Hero> findHeroeByFechaCreacionHero(@PathVariable("fechaCreacionHero") LocalDate fechaCreacionHero){
+    public ResponseEntity<Optional<Hero>> findHeroeByFechaCreacionHero(@PathVariable("fechaCreacionHero") LocalDate fechaCreacionHero) {
         try {
-            return this.heroService.findByFechaCreacionHero(fechaCreacionHero);
+            Optional<Hero> hero = heroService.findByFechaCreacionHero(fechaCreacionHero);
+            return ResponseEntity.ok(hero);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: La fecha no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getHero/estadoHero/{estadoHero}")
-    public Optional<Hero> findHeroeByEstadoHero(@PathVariable("estadoHero") String estadoHero){
+    public ResponseEntity<Optional<Hero>> findHeroeByEstadoHero(@PathVariable("estadoHero") String estadoHero) {
         try {
-            return this.heroService.findByEstadoHero(estadoHero);
+            Optional<Hero> hero = heroService.findByEstadoHero(estadoHero);
+            return ResponseEntity.ok(hero);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El estado no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getHero/fotoUrlHero/{fotoUrlHero}")
-    public Optional<Hero> findHeroeByFotoUrlHero(@PathVariable("fotoUrlHero") String fotoUrlHero){
+    public ResponseEntity<Optional<Hero>> findHeroeByFotoUrlHero(@PathVariable("fotoUrlHero") String fotoUrlHero) {
         try {
-            return this.heroService.findByFotoUrlHero(fotoUrlHero);
+            Optional<Hero> hero = heroService.findByFotoUrlHero(fotoUrlHero);
+            return ResponseEntity.ok(hero);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR:La foto no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/createHero")
-    public Hero createHeroe(@RequestBody() Hero hero){
+    @PostMapping("/postHero")
+    public ResponseEntity<?> createHeroe(@RequestBody Hero hero) {
         try {
-            return this.heroService.createHero(hero);
+            Hero createdHero = heroService.createHero(hero);
+            return new ResponseEntity<>(createdHero, HttpStatus.CREATED);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return new ResponseEntity<>("ERROR: informacion no valida: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/putHero/{idHero}")
     public ResponseEntity<Hero> updateHero(@PathVariable("idHero") Long idHero, @RequestBody Hero heroDetails) {
         try {
@@ -138,19 +124,22 @@ public class HeroController {
             return ResponseEntity.status(e.getStatusCode()).body(null);
         } catch (IOException e) {
             System.err.println("ERROR: " + e.getMessage());
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         } catch (Exception e) {
+            System.err.println("ERROR: " + e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/deleteHero/{idHero}")
-    public void deleteHeroe(@PathVariable("idHero") Long idHero){
+    public ResponseEntity<?> deleteHeroe(@PathVariable("idHero") Long idHero) {
         try {
-            this.heroService.deleteHero(idHero);
+            heroService.deleteHero(idHero);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>("ERROR: " + e.getReason(), e.getStatusCode());
         }
     }
 }

@@ -19,7 +19,7 @@ public class Power {
     private String descripcionPower;
 
     @ManyToOne
-    @JoinColumn(name = "heroe_id")
+    @JoinColumn(name = "id_hero")
     @JsonBackReference
     private Hero hero;
 

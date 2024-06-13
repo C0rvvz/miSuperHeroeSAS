@@ -1,6 +1,8 @@
 package udem.edu.co.miSuperHeroeSAS.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import udem.edu.co.miSuperHeroeSAS.entities.Identification;
 import udem.edu.co.miSuperHeroeSAS.service.IdentificationService;
@@ -10,98 +12,93 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/identification")
 public class IdentificationController {
     @Autowired
     IdentificationService identificationService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @GetMapping("/getIdentification")
-    public List<Identification> findAllIdentifications(){
+    public ResponseEntity<List<Identification>> findAllIdentifications() {
         try {
-            return this.identificationService.findAllIdentifications();
+            List<Identification> identifications = identificationService.findAllIdentifications();
+            return ResponseEntity.ok(identifications);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: No existen identificaciones:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getIdentification/{idIdentification}")
-    public Optional<Identification> findByIdIdentification(@PathVariable("idIdentification") Long idIdentification) {
+    @GetMapping("/getIdentification/idIdentification/{idIdentification}")
+    public ResponseEntity<Optional<Identification>> findByIdIdentification(@PathVariable("idIdentification") Long idIdentification) {
         try {
-            return this.identificationService.findByIdIdentification(idIdentification);
+            Optional<Identification> identification = identificationService.findByIdIdentification(idIdentification);
+            return ResponseEntity.ok(identification);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El id no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @GetMapping("/getIdentification/tipoIdentification/{tipoIdentification}")
-    public Optional<Identification> findByTipoIdentification(@PathVariable("tipoIdentification") String tipoIdentification){
+    public ResponseEntity<Optional<Identification>> findByTipoIdentification(@PathVariable("tipoIdentification") String tipoIdentification) {
         try {
-            return this.identificationService.findByTipoIdentification(tipoIdentification);
+            Optional<Identification> identification = identificationService.findByTipoIdentification(tipoIdentification);
+            return ResponseEntity.ok(identification);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: El tipo no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getIdentification/descripcionIdentification/{descripcionIdentification}")
-    public Optional<Identification> findByDescripcionIdentification(@PathVariable("descripcionIdentification") String descripcionIdentification){
+    public ResponseEntity<Optional<Identification>> findByDescripcionIdentification(@PathVariable("descripcionIdentification") String descripcionIdentification) {
         try {
-            return this.identificationService.findByDescripcionIdentification(descripcionIdentification);
+            Optional<Identification> identification = identificationService.findByDescripcionIdentification(descripcionIdentification);
+            return ResponseEntity.ok(identification);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (SQLException e) {
-            System.err.println("ERROR: La descripcion no existe:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/createIdentification")
-    public Identification createIdentification(@RequestBody() Identification identification){
+
+    @PostMapping("/postIdentification")
+    public ResponseEntity<Identification> createIdentification(@RequestBody Identification identification) {
         try {
-            return this.identificationService.createIdentification(identification);
+            Identification createdIdentification = identificationService.createIdentification(identification);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdIdentification);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @PutMapping("/putIdentification/{idIdentification}")
-    public Identification updateIdentification(@PathVariable("id") Long idIdentification , @RequestBody() Identification identification){
+    public ResponseEntity<Identification> updateIdentification(@PathVariable("idIdentification") Long idIdentification, @RequestBody Identification identification) {
         try {
-            return this.identificationService.updateIdentification(idIdentification, identification);
+            Identification updatedIdentification = identificationService.updateIdentification(idIdentification, identification);
+            return ResponseEntity.ok(updatedIdentification);
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @DeleteMapping("/deleteIdentification/{idIdentification}")
-    public void deleteIdentification(@PathVariable("idIdentification") Long idIdentification){
+    public ResponseEntity<Void> deleteIdentification(@PathVariable("idIdentification") Long idIdentification) {
         try {
-            this.identificationService.deleteIdentification(idIdentification);
+            identificationService.deleteIdentification(idIdentification);
+            return ResponseEntity.noContent().build();
         } catch (IOException e) {
-            System.err.println("ERROR: informacion no valida:\n");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

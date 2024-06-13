@@ -206,8 +206,8 @@ class HeroServiceImplTest {
         // Verificar que el código de estado de la excepción es NOT_FOUND
         assertEquals(HttpStatus.NOT_FOUND.value(), exception.getStatusCode().value());
 
-        // Verificar que el mensaje de la excepción contiene "Hero not found with id 1"
-        assertTrue(exception.getReason().contains("Hero not found with id " + idHero));
+        // Verificar que el mensaje de la excepción contiene "Heroe no encontrado con el id 1"
+        assertTrue(exception.getReason().contains("Heroe no encontrado con el id " + idHero));
 
         // Verificar que el método del repositorio no se llamó para guardar
         verify(heroRepository, never()).save(any(Hero.class));
@@ -225,12 +225,13 @@ class HeroServiceImplTest {
         // Verificar que el código de estado de la excepción es NOT_FOUND
         assertEquals(HttpStatus.NOT_FOUND.value(), exception.getStatusCode().value());
 
-        // Verificar que el mensaje de la excepción contiene "Hero not found with id null"
-        assertTrue(exception.getReason().contains("Hero not found with id null"));
+        // Verificar que el mensaje de la excepción contiene "Heroe no encontrado con el id null"
+        assertTrue(exception.getReason().contains("Heroe no encontrado con el id " + idHero));
 
         // Verificar que el método del repositorio no se llamó para guardar
         verify(heroRepository, never()).save(any(Hero.class));
     }
+
 
     @Test
     void deleteHeroWithData() throws IOException {

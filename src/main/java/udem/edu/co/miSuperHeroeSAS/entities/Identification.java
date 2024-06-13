@@ -15,7 +15,7 @@ public class Identification {
     private String descripcionIdentification;
 
     @OneToOne
-    @JoinColumn(name = "heroe_id")
+    @JoinColumn(name = "id_hero")
     @JsonBackReference
     private Hero hero;
 
