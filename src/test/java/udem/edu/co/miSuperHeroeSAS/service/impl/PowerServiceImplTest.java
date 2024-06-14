@@ -47,7 +47,6 @@ class PowerServiceImplTest {
         hero.setNombreHero("batman");
         hero.setAliasHero("pepe");
         hero.setEstadoHero("activo");
-        hero.setFotoUrlHero("https://www.seekpng.com/png/detail/30-302355_batman-pepe.png");
         hero.setFechaCreacionHero(LocalDate.of(2024, 6, 9));
 
         // Configura el poder

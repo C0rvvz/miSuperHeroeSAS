@@ -21,7 +21,7 @@ public class HeroController {
     @Autowired
     HeroService heroService;
 
-    @GetMapping("/getHero")
+    @GetMapping("/getHeros")
     public ResponseEntity<List<Hero>> findAllHeros() {
         try {
             List<Hero> heroes = heroService.findAllHeros();
