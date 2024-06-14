@@ -93,18 +93,6 @@ public class HeroController {
         }
     }
 
-    @GetMapping("/getHero/fotoUrlHero/{fotoUrlHero}")
-    public ResponseEntity<Optional<Hero>> findHeroeByFotoUrlHero(@PathVariable("fotoUrlHero") String fotoUrlHero) {
-        try {
-            Optional<Hero> hero = heroService.findByFotoUrlHero(fotoUrlHero);
-            return ResponseEntity.ok(hero);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (SQLException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }
-
     @PostMapping("/postHero")
     public ResponseEntity<?> createHeroe(@RequestBody Hero hero) {
         try {

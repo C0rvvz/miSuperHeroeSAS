@@ -81,16 +81,6 @@ public class HeroServiceImpl implements HeroService {
     }
 
     @Override
-    public Optional<Hero> findByFotoUrlHero(String fotoUrlHero) throws IOException, SQLException {
-        try {
-            return heroRepository.findByFotoUrlHero(fotoUrlHero);
-        } catch (Exception e) {
-            // Manejo general para otras excepciones
-            throw new IOException("Error al buscar heroe por URL de foto: " + e.getMessage());
-        }
-    }
-
-    @Override
     public Hero createHero(Hero hero) throws IOException {
         if (hero == null) {
             throw new IOException("El Heroe no puede ser nulo ");
@@ -111,7 +101,6 @@ public class HeroServiceImpl implements HeroService {
             hero.setAliasHero(heroDetails.getAliasHero());
             hero.setFechaCreacionHero(heroDetails.getFechaCreacionHero());
             hero.setEstadoHero(heroDetails.getEstadoHero());
-            hero.setFotoUrlHero(heroDetails.getFotoUrlHero());
 
             Identification identification = heroDetails.getIdentification();
             if (identification != null) {

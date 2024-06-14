@@ -52,7 +52,6 @@ class HeroServiceImplTest {
         hero.setAliasHero("pepe");
         hero.setFechaCreacionHero(LocalDate.of(2024, 6, 9));
         hero.setEstadoHero("desaparecido");
-        hero.setFotoUrlHero("https://www.seekpng.com/png/detail/30-302355_batman-pepe.png");
 
         // Configuración de la identificación
         identification = new Identification();
@@ -150,18 +149,6 @@ class HeroServiceImplTest {
     void findByEstadoHeroNull() throws SQLException, IOException {
         when(heroRepository.findByEstadoHero(hero.getEstadoHero())).thenReturn(null);
         assertNull(heroService.findByEstadoHero(hero.getEstadoHero()));
-    }
-
-    @Test
-    void findByFotoUrlHeroWithData() throws SQLException, IOException {
-        when(heroRepository.findByFotoUrlHero(hero.getFotoUrlHero())).thenReturn(Optional.of(hero));
-        assertNotNull(heroService.findByFotoUrlHero(hero.getFotoUrlHero()));
-    }
-
-    @Test
-    void findByFotoUrlHeroNull() throws SQLException, IOException {
-        when(heroRepository.findByFotoUrlHero(hero.getFotoUrlHero())).thenReturn(null);
-        assertNull(heroService.findByFotoUrlHero(hero.getFotoUrlHero()));
     }
 
     @Test

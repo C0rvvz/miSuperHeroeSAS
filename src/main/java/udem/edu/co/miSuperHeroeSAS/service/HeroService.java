@@ -17,7 +17,6 @@ public interface HeroService {
     public Optional<Hero> findByAliasHero(String aliasHero) throws IOException, SQLException;
     public Optional<Hero> findByFechaCreacionHero(LocalDate fechaCreacionHero) throws IOException, SQLException;
     public Optional<Hero> findByEstadoHero(String estadoHero) throws IOException, SQLException;
-    public Optional<Hero> findByFotoUrlHero(String fotoUrlHero) throws IOException, SQLException;
     public Hero createHero(Hero hero) throws IOException;
     public Hero updateHero(Long idHero, Hero heroe) throws IOException;
     public void deleteHero(Long idHero) throws IOException;

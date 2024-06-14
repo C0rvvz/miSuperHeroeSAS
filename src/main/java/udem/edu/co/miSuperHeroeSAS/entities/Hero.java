@@ -18,7 +18,6 @@ public class Hero {
     private String aliasHero;
     private LocalDate fechaCreacionHero;
     private String estadoHero;
-    private String fotoUrlHero;
 
     @OneToOne(mappedBy = "hero", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -31,13 +30,12 @@ public class Hero {
     public Hero() {
     }
 
-    public Hero(Long idHero, String nombreHero, String aliasHero, LocalDate fechaCreacionHero, String estadoHero, String fotoUrlHero, Identification identification, List<Power> powers) {
+    public Hero(Long idHero, String nombreHero, String aliasHero, LocalDate fechaCreacionHero, String estadoHero, Identification identification, List<Power> powers) {
         this.idHero = idHero;
         this.nombreHero = nombreHero;
         this.aliasHero = aliasHero;
         this.fechaCreacionHero = fechaCreacionHero;
         this.estadoHero = estadoHero;
-        this.fotoUrlHero = fotoUrlHero;
         this.identification = identification;
         this.powers = powers;
     }
@@ -80,14 +78,6 @@ public class Hero {
 
     public void setEstadoHero(String estadoHero) {
         this.estadoHero = estadoHero;
-    }
-
-    public String getFotoUrlHero() {
-        return fotoUrlHero;
-    }
-
-    public void setFotoUrlHero(String fotoUrlHero) {
-        this.fotoUrlHero = fotoUrlHero;
     }
 
     public Identification getIdentification() {

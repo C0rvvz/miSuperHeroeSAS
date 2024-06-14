@@ -20,9 +20,6 @@ public interface HeroRepository extends JpaRepository<Hero, Long> {
     @Query("SELECT h FROM Hero h WHERE h.estadoHero = :estadoHero")
     Optional<Hero> findByEstadoHero(@Param("estadoHero") String estadoHero);
 
-    @Query("SELECT h FROM Hero h WHERE h.fotoUrlHero = :fotoUrlHero")
-    Optional<Hero> findByFotoUrlHero(@Param("fotoUrlHero") String fotoUrlHeroHero);
-
     @Query("SELECT h FROM Hero h WHERE h.fechaCreacionHero = :fechaCreacionHero")
     Optional<Hero> findByFechaCreacionHero(@Param("fechaCreacionHero") LocalDate fechaCreacionHero);
 }
