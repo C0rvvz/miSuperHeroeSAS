@@ -15,7 +15,6 @@ public class Power {
 
     private String nombrePower;
     private LocalDate fechaAdquisicionPower;
-    private int nivelPower;
     private String descripcionPower;
 
     @ManyToOne
@@ -26,11 +25,10 @@ public class Power {
     public Power() {
     }
 
-    public Power(Long idPower, String nombrePower, LocalDate fechaAdquisicionPower, int nivelPower, String descripcionPower, Hero hero) {
+    public Power(Long idPower, LocalDate fechaAdquisicionPower, String nombrePower, String descripcionPower, Hero hero) {
         this.idPower = idPower;
-        this.nombrePower = nombrePower;
         this.fechaAdquisicionPower = fechaAdquisicionPower;
-        this.nivelPower = nivelPower;
+        this.nombrePower = nombrePower;
         this.descripcionPower = descripcionPower;
         this.hero = hero;
     }
@@ -57,14 +55,6 @@ public class Power {
 
     public void setFechaAdquisicionPower(LocalDate fechaAdquisicionPower) {
         this.fechaAdquisicionPower = fechaAdquisicionPower;
-    }
-
-    public int getNivelPower() {
-        return nivelPower;
-    }
-
-    public void setNivelPower(int nivelPower) {
-        this.nivelPower = nivelPower;
     }
 
     public String getDescripcionPower() {

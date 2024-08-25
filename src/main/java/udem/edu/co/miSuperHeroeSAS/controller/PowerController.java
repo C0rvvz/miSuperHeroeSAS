@@ -21,7 +21,7 @@ public class PowerController {
     PowerService powerService;
 
 
-    @GetMapping("/getPower")
+    @GetMapping("/")
     public ResponseEntity<List<Power>> findAllPowers() {
         try {
             List<Power> powers = powerService.findAllPowers();
@@ -33,8 +33,8 @@ public class PowerController {
         }
     }
 
-    @GetMapping("/getPower/idPower/{idPower}")
-    public ResponseEntity<Optional<Power>> findByIdPower(@PathVariable("idPower") Long idPower) {
+    @GetMapping("/idpower/{idpower}")
+    public ResponseEntity<Optional<Power>> findByIdPower(@PathVariable("idpower") Long idPower) {
         try {
             Optional<Power> power = powerService.findByIdPower(idPower);
             return ResponseEntity.ok(power);
@@ -45,8 +45,8 @@ public class PowerController {
         }
     }
 
-    @GetMapping("/getPower/nombrePower/{nombrePower}")
-    public ResponseEntity<Optional<Power>> findByNombrePower(@PathVariable("nombrePower") String nombrePower) {
+    @GetMapping("/nombrepower/{nombrepower}")
+    public ResponseEntity<Optional<Power>> findByNombrePower(@PathVariable("nombrepower") String nombrePower) {
         try {
             Optional<Power> power = powerService.findByNombrePower(nombrePower);
             return ResponseEntity.ok(power);
@@ -57,8 +57,8 @@ public class PowerController {
         }
     }
 
-    @GetMapping("/getPower/fechaAdquisicionPower/{fechaAdquisicionPower}")
-    public ResponseEntity<Optional<Power>> findByFechaAdquisicionPower(@PathVariable("fechaAdquisicionPower") LocalDate fechaAdquisicionPower) {
+    @GetMapping("/fechaadquisicionpower/{fechaadquisicionpower}")
+    public ResponseEntity<Optional<Power>> findByFechaAdquisicionPower(@PathVariable("fechaadquisicionpower") LocalDate fechaAdquisicionPower) {
         try {
             Optional<Power> power = powerService.findByFechaAdquisicionPower(fechaAdquisicionPower);
             return ResponseEntity.ok(power);
@@ -69,8 +69,8 @@ public class PowerController {
         }
     }
 
-    @GetMapping("/getPower/nivelPower/{nivelPower}")
-    public ResponseEntity<Optional<Power>> findByNivelPower(@PathVariable("nivelPower") int nivelPower) {
+    @GetMapping("/nivelpower/{nivelpower}")
+    public ResponseEntity<Optional<Power>> findByNivelPower(@PathVariable("nivelpower") int nivelPower) {
         try {
             Optional<Power> power = powerService.findByNivelPower(nivelPower);
             return ResponseEntity.ok(power);
@@ -81,8 +81,8 @@ public class PowerController {
         }
     }
 
-    @GetMapping("/getPower/descripcionPower/{descripcionPower}")
-    public ResponseEntity<Optional<Power>> findByDescripcionPower(@PathVariable("descripcionPower") String descripcionPower) {
+    @GetMapping("/descripcionpower/{descripcionpower}")
+    public ResponseEntity<Optional<Power>> findByDescripcionPower(@PathVariable("descripcionpower") String descripcionPower) {
         try {
             Optional<Power> power = powerService.findByDescripcionPower(descripcionPower);
             return ResponseEntity.ok(power);
@@ -93,7 +93,7 @@ public class PowerController {
         }
     }
 
-    @PostMapping("/postPower")
+    @PostMapping("/")
     public ResponseEntity<Power> createPower(@RequestBody Power power) {
         try {
             Power createdPower = powerService.createPower(power);
@@ -103,8 +103,8 @@ public class PowerController {
         }
     }
 
-    @PutMapping("/putPower/{idPower}")
-    public ResponseEntity<Power> updatePower(@PathVariable("idPower") Long idPower, @RequestBody Power power) {
+    @PutMapping("/{idpower}")
+    public ResponseEntity<Power> updatePower(@PathVariable("idpower") Long idPower, @RequestBody Power power) {
         try {
             Power updatedPower = powerService.updatePower(idPower, power);
             return ResponseEntity.ok(updatedPower);
@@ -113,8 +113,8 @@ public class PowerController {
         }
     }
 
-    @DeleteMapping("/deletePower/{idPower}")
-    public ResponseEntity<Void> deletePower(@PathVariable("idPower") Long idPower) {
+    @DeleteMapping("/{idpower}")
+    public ResponseEntity<Void> deletePower(@PathVariable("idpower") Long idPower) {
         try {
             powerService.deletePower(idPower);
             return ResponseEntity.noContent().build();

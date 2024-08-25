@@ -21,82 +21,58 @@ public class HeroServiceImpl implements HeroService {
     private HeroRepository heroRepository;
 
     @Override
-    public List<Hero> findAllHeros() throws IOException, SQLException {
-        try {
+    public List<Hero> findAllHeros(){
+
             return (List<Hero>) heroRepository.findAll();
-        } catch (Exception e) {
-            // Manejo general para otras excepciones
-            throw new IOException("Error al buscar todos los heroes: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Hero> findByIdHero(Long idHero) throws IOException, SQLException {
-        try {
+    public Optional<Hero> findByIdHero(Long idHero){
             return heroRepository.findById(idHero);
-        } catch (Exception e) {
-            // Manejo general para otras excepciones
-            throw new IOException("Error al buscar el id del heroe: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Hero> findByNombreHero(String nombreHero) throws IOException, SQLException {
-        try {
+    public Optional<Hero> findByNombreHero(String nombreHero){
+
             return heroRepository.findByNombreHero(nombreHero);
-        } catch (Exception e) {
-            // Manejo general para otras excepciones
-            throw new IOException("Error al buscar el nombre del heroe: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Hero> findByAliasHero(String aliasHero) throws IOException, SQLException {
-        try {
+    public Optional<Hero> findByAliasHero(String aliasHero) {
+
             return heroRepository.findByAliasHero(aliasHero);
-        } catch (Exception e) {
-            // Manejo general para otras excepciones
-            throw new IOException("Error al buscar el alias del heroe: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Hero> findByFechaCreacionHero(LocalDate fechaCreacionHero) throws IOException, SQLException {
-        try {
+    public Optional<Hero> findByFechaCreacionHero(LocalDate fechaCreacionHero) {
+
             return heroRepository.findByFechaCreacionHero(fechaCreacionHero);
-        } catch (Exception e) {
-            // Manejo general para otras excepciones
-            throw new IOException("Error al buscar la fecha de creacion del heroe: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Hero> findByEstadoHero(String estadoHero) throws IOException, SQLException {
-        try {
+    public Optional<Hero> findByEstadoHero(String estadoHero)  {
+
             return heroRepository.findByEstadoHero(estadoHero);
-        } catch (Exception e) {
-            // Manejo general para otras excepciones
-            throw new IOException("Error al buscar estado del heroe: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Hero createHero(Hero hero) throws IOException {
-        if (hero == null) {
-            throw new IOException("El Heroe no puede ser nulo ");
-        }
-        if (hero.getIdHero() != null && heroRepository.existsById(hero.getIdHero())) {
-            throw new IOException("Ya existe un Heroe con ese ID: "  + hero.getIdHero());
-        }
+    public Hero createHero(Hero hero) {
+
         return heroRepository.save(hero);
     }
 
     @Override
-    public Hero updateHero(Long idHero, Hero heroDetails) throws IOException {
-        Hero hero = heroRepository.findById(idHero)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Heroe no encontrado con el id " + idHero));
+    public Hero updateHero(Long idHero, Hero heroDetails) {
+        Optional<Hero> optionalHero = heroRepository.findById(idHero);
+        if (optionalHero.isPresent()) {
+            Hero hero = optionalHero.get();
 
-        try {
             hero.setNombreHero(heroDetails.getNombreHero());
             hero.setAliasHero(heroDetails.getAliasHero());
             hero.setFechaCreacionHero(heroDetails.getFechaCreacionHero());
@@ -111,18 +87,16 @@ public class HeroServiceImpl implements HeroService {
             hero.setPowers(heroDetails.getPowers());
 
             return heroRepository.save(hero);
-        } catch (Exception e) {
-            throw new IOException("Error al actualizar el heroe", e);
         }
+        return heroDetails;
     }
 
+
     @Override
-    public void deleteHero(Long idHero) throws IOException {
+    public void deleteHero(Long idHero){
         Optional<Hero> hero = heroRepository.findById(idHero);
-        if (hero.isPresent()) {
+
             heroRepository.delete(hero.get());
-        } else {
-            throw new IOException("No se ha encontrado un Heroe con ese ID: " + idHero);
-        }
+
     }
 }

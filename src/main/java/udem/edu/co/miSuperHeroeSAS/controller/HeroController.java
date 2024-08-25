@@ -21,7 +21,7 @@ public class HeroController {
     @Autowired
     HeroService heroService;
 
-    @GetMapping("/getHeros")
+    @GetMapping("/")
     public ResponseEntity<List<Hero>> findAllHeros() {
         try {
             List<Hero> heroes = heroService.findAllHeros();
@@ -33,8 +33,8 @@ public class HeroController {
         }
     }
 
-    @GetMapping("/getHero/idHero/{idHero}")
-    public ResponseEntity<Optional<Hero>> findByIdHero(@PathVariable("idHero") Long idHero) {
+    @GetMapping("/idhero/{idhero}")
+    public ResponseEntity<Optional<Hero>> findByIdHero(@PathVariable("idhero") Long idHero) {
         try {
             Optional<Hero> hero = heroService.findByIdHero(idHero);
             return ResponseEntity.ok(hero);
@@ -45,8 +45,8 @@ public class HeroController {
         }
     }
 
-    @GetMapping("/getHero/aliasHero/{aliasHero}")
-    public ResponseEntity<Optional<Hero>> findHeroeByAliasHero(@PathVariable("aliasHero") String aliasHero) {
+    @GetMapping("/aliashero/{aliashero}")
+    public ResponseEntity<Optional<Hero>> findHeroeByAliasHero(@PathVariable("aliashero") String aliasHero) {
         try {
             Optional<Hero> hero = heroService.findByAliasHero(aliasHero);
             return ResponseEntity.ok(hero);
@@ -57,8 +57,8 @@ public class HeroController {
         }
     }
 
-    @GetMapping("/getHero/nombreHero/{nombreHero}")
-    public ResponseEntity<Optional<Hero>> findHeroeByNombreHero(@PathVariable("nombreHero") String nombreHero) {
+    @GetMapping("/nombrehero/{nombrehero}")
+    public ResponseEntity<Optional<Hero>> findHeroeByNombreHero(@PathVariable("nombrehero") String nombreHero) {
         try {
             Optional<Hero> hero = heroService.findByNombreHero(nombreHero);
             return ResponseEntity.ok(hero);
@@ -69,8 +69,8 @@ public class HeroController {
         }
     }
 
-    @GetMapping("/getHero/fechaCreacionHero/{fechaCreacionHero}")
-    public ResponseEntity<Optional<Hero>> findHeroeByFechaCreacionHero(@PathVariable("fechaCreacionHero") LocalDate fechaCreacionHero) {
+    @GetMapping("/fechacreacionhero/{fechacreacionhero}")
+    public ResponseEntity<Optional<Hero>> findHeroeByFechaCreacionHero(@PathVariable("fechacreacionhero") LocalDate fechaCreacionHero) {
         try {
             Optional<Hero> hero = heroService.findByFechaCreacionHero(fechaCreacionHero);
             return ResponseEntity.ok(hero);
@@ -81,8 +81,8 @@ public class HeroController {
         }
     }
 
-    @GetMapping("/getHero/estadoHero/{estadoHero}")
-    public ResponseEntity<Optional<Hero>> findHeroeByEstadoHero(@PathVariable("estadoHero") String estadoHero) {
+    @GetMapping("/estadohero/{estadohero}")
+    public ResponseEntity<Optional<Hero>> findHeroeByEstadoHero(@PathVariable("estadohero") String estadoHero) {
         try {
             Optional<Hero> hero = heroService.findByEstadoHero(estadoHero);
             return ResponseEntity.ok(hero);
@@ -93,7 +93,7 @@ public class HeroController {
         }
     }
 
-    @PostMapping("/postHero")
+    @PostMapping("/")
     public ResponseEntity<?> createHeroe(@RequestBody Hero hero) {
         try {
             Hero createdHero = heroService.createHero(hero);
@@ -103,8 +103,8 @@ public class HeroController {
         }
     }
 
-    @PutMapping("/putHero/{idHero}")
-    public ResponseEntity<Hero> updateHero(@PathVariable("idHero") Long idHero, @RequestBody Hero heroDetails) {
+    @PutMapping("/{idhero}")
+    public ResponseEntity<Hero> updateHero(@PathVariable("idhero") Long idHero, @RequestBody Hero heroDetails) {
         try {
             Hero updatedHero = heroService.updateHero(idHero, heroDetails);
             return ResponseEntity.ok(updatedHero);
@@ -119,8 +119,8 @@ public class HeroController {
         }
     }
 
-    @DeleteMapping("/deleteHero/{idHero}")
-    public ResponseEntity<?> deleteHeroe(@PathVariable("idHero") Long idHero) {
+    @DeleteMapping("/{idhero}")
+    public ResponseEntity<?> deleteHeroe(@PathVariable("idhero") Long idHero) {
         try {
             heroService.deleteHero(idHero);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

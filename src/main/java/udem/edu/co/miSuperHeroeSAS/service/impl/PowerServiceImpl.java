@@ -20,96 +20,70 @@ public class PowerServiceImpl implements PowerService {
     private PowerRepository powerRepository;
 
     @Override
-    public List<Power> findAllPowers() throws IOException, SQLException {
-        try {
+    public List<Power> findAllPowers() {
+
             return (List<Power>) powerRepository.findAll();
-        } catch (Exception e) {
-            throw new IOException("Error al buscar todos los poderes: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Power> findByIdPower(Long idPower) throws IOException, SQLException {
-        try {
+    public Optional<Power> findByIdPower(Long idPower) {
+
             return powerRepository.findById(idPower);
-        } catch (Exception e) {
-            throw new IOException("Error al buscar el id del poder: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Power> findByNombrePower(String nombrePower) throws IOException, SQLException {
-        try {
+    public Optional<Power> findByNombrePower(String nombrePower) {
             return powerRepository.findByNombrePower(nombrePower);
-        } catch (Exception e) {
-            throw new IOException("Error al buscar el nombre del poder: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Power> findByFechaAdquisicionPower(LocalDate fechaAdquisicionPower) throws IOException, SQLException {
-        try {
+    public Optional<Power> findByFechaAdquisicionPower(LocalDate fechaAdquisicionPower)  {
+
             return powerRepository.findByFechaAdquisicionPower(fechaAdquisicionPower);
-        } catch (Exception e) {
-            throw new IOException("Error al buscar la fecha de creacion del poder: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Power> findByNivelPower(int nivelPower) throws IOException, SQLException {
-        try {
-            return powerRepository.findByNivelPower(nivelPower);
-        } catch (Exception e) {
-            throw new IOException("Error al buscar el nivel del poder: " + e.getMessage());
-        }
+    public Optional<Power> findByNivelPower(Long idNivel, int nivel) {
+        return nivelRepository.findByNivel(nivel);
     }
 
     @Override
-    public Optional<Power> findByDescripcionPower(String descripcionPower) throws IOException, SQLException {
-        try {
+    public Optional<Power> findByDescripcionPower(String descripcionPower){
+
             return powerRepository.findByDescripcionPower(descripcionPower);
-        } catch (Exception e) {
-            throw new IOException("Error al buscar la descripcion del poder: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Power createPower(Power power) throws IOException {
-        if (power == null) {
-            throw new IOException("El Poder no puede ser nulo ");
-        }
-        if (power.getIdPower() != null && powerRepository.existsById(power.getIdPower())) {
-            throw new IOException("Ya existe un Poder con ese ID: "  + power.getIdPower());
-        }
+    public Power createPower(Power power)  {
+
         return powerRepository.save(power);
     }
 
     @Override
-    public Power updatePower(Long idPower, Power powerDetails) throws IOException {
-        Power power = powerRepository.findById(idPower)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Poder no encontrado con el id " + idPower));
+    public Power updatePower(Long idPower, Power powerDetails) {
+        Optional<Power> optionalPower = powerRepository.findById(idPower);
+        if (optionalPower.isPresent()) {
+            Power power = optionalPower.get();
 
-        try {
             power.setNombrePower(powerDetails.getNombrePower());
             power.setFechaAdquisicionPower(powerDetails.getFechaAdquisicionPower());
-            power.setNivelPower(powerDetails.getNivelPower());
             power.setDescripcionPower(powerDetails.getDescripcionPower());
             power.setHero(powerDetails.getHero());
 
             return powerRepository.save(power);
-        } catch (Exception e) {
-            throw new IOException("Error al actualizar el poder", e);
         }
+        return powerDetails;
     }
 
-
     @Override
-    public void deletePower(Long idPower) throws IOException {
+    public void deletePower(Long idPower) {
         Optional<Power> power = powerRepository.findById(idPower);
-        if (power.isPresent()) {
             powerRepository.delete(power.get());
-        } else {
-            throw new IOException("No se ha encontrado un Poder con ese ID: " + idPower);
-        }
+
     }
 }

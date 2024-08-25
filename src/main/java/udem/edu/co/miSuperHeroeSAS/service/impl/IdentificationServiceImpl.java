@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import udem.edu.co.miSuperHeroeSAS.entities.Hero;
 import udem.edu.co.miSuperHeroeSAS.entities.Identification;
 import udem.edu.co.miSuperHeroeSAS.repository.IdentificationRepository;
 import udem.edu.co.miSuperHeroeSAS.service.IdentificationService;
@@ -19,73 +20,56 @@ public class IdentificationServiceImpl implements IdentificationService {
     private IdentificationRepository identificationRepository;
 
     @Override
-    public List<Identification> findAllIdentifications() throws IOException, SQLException {
-        try {
+    public List<Identification> findAllIdentifications()  {
+
             return (List<Identification>) identificationRepository.findAll();
-        } catch (Exception e) {
-            throw new IOException("Error al buscar todas las identificaciones: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Identification> findByIdIdentification(Long idIdentification) throws IOException, SQLException {
-        try {
+    public Optional<Identification> findByIdIdentification(Long idIdentification) {
+
             return identificationRepository.findById(idIdentification);
-        } catch (Exception e) {
-            throw new IOException("Error al buscar el id de la identificacion: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Optional<Identification> findByTipoIdentification(String tipoIdentification) throws IOException, SQLException {
-        try {
+    public Optional<Identification> findByTipoIdentification(String tipoIdentification)  {
+
             return identificationRepository.findByTipoIdentification(tipoIdentification);
-        } catch (Exception e) {
-            throw new IOException("Error al buscar el tipo de la identificacion: " + e.getMessage());
-        }
+
     }
 
-    public Optional<Identification> findByDescripcionIdentification(String descripcionIdentification) throws IOException, SQLException {
-        try {
+    public Optional<Identification> findByDescripcionIdentification(String descripcionIdentification) {
+
             return identificationRepository.findByDescripcionIdentification(descripcionIdentification);
-        } catch (Exception e) {
-            throw new IOException("Error al buscar la descripcion de la identificacion: " + e.getMessage());
-        }
+
     }
 
     @Override
-    public Identification createIdentification(Identification identification) throws IOException {
-        if (identification == null) {
-            throw new IOException("La identificacion no puede ser nulo ");
-        }
-        if (identification.getIdIdentification() != null && identificationRepository.existsById(identification.getIdIdentification())) {
-            throw new IOException("Ya existe una identifiacion con ese ID: "  + identification.getIdIdentification());
-        }
+    public Identification createIdentification(Identification identification) {
+
+
         return identificationRepository.save(identification);
     }
 
     @Override
-    public Identification updateIdentification(Long idIdentification, Identification identificationDetails) throws IOException {
-        Identification identification = identificationRepository.findById(idIdentification)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Identaficacion no encontrada con el id " + idIdentification));
+    public Identification updateIdentification(Long idIdentification, Identification identificationD) {
+        Optional<Identification> optionalIdentification = identificationRepository.findById(idIdentification);
+        if (optionalIdentification.isPresent()) {
+            Identification identification = optionalIdentification.get();
 
-        try {
-            identification.setTipoIdentification(identificationDetails.getTipoIdentification());
-            identification.setDescripcionIdentification(identificationDetails.getDescripcionIdentification());
+            identification.setTipoIdentification(identificationD.getTipoIdentification());
+            identification.setDescripcionIdentification(identificationD.getDescripcionIdentification());
 
             return identificationRepository.save(identification);
-        } catch (Exception e) {
-            throw new IOException("Error al actualizar la identificacion", e);
         }
+        return identificationD;
     }
-
     @Override
-    public void deleteIdentification(Long idIdentification) throws IOException {
+    public void deleteIdentification(Long idIdentification) {
         Optional<Identification> identification = identificationRepository.findById(idIdentification);
-        if (identification.isPresent()) {
             identificationRepository.delete(identification.get());
-        } else {
-            throw new IOException("No se ha encontrado una identificacion con ese ID: " + idIdentification);
-        }
+
     }
 }

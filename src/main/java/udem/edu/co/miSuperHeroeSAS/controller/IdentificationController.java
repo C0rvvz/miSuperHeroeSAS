@@ -20,7 +20,7 @@ public class IdentificationController {
     IdentificationService identificationService;
 
 
-    @GetMapping("/getIdentification")
+    @GetMapping("/")
     public ResponseEntity<List<Identification>> findAllIdentifications() {
         try {
             List<Identification> identifications = identificationService.findAllIdentifications();
@@ -32,8 +32,8 @@ public class IdentificationController {
         }
     }
 
-    @GetMapping("/getIdentification/idIdentification/{idIdentification}")
-    public ResponseEntity<Optional<Identification>> findByIdIdentification(@PathVariable("idIdentification") Long idIdentification) {
+    @GetMapping("/ididentification/{ididentification}")
+    public ResponseEntity<Optional<Identification>> findByIdIdentification(@PathVariable("ididentification") Long idIdentification) {
         try {
             Optional<Identification> identification = identificationService.findByIdIdentification(idIdentification);
             return ResponseEntity.ok(identification);
@@ -45,8 +45,8 @@ public class IdentificationController {
     }
 
 
-    @GetMapping("/getIdentification/tipoIdentification/{tipoIdentification}")
-    public ResponseEntity<Optional<Identification>> findByTipoIdentification(@PathVariable("tipoIdentification") String tipoIdentification) {
+    @GetMapping("/tipoidentification/{tipoidentification}")
+    public ResponseEntity<Optional<Identification>> findByTipoIdentification(@PathVariable("tipoidentification") String tipoIdentification) {
         try {
             Optional<Identification> identification = identificationService.findByTipoIdentification(tipoIdentification);
             return ResponseEntity.ok(identification);
@@ -57,8 +57,8 @@ public class IdentificationController {
         }
     }
 
-    @GetMapping("/getIdentification/descripcionIdentification/{descripcionIdentification}")
-    public ResponseEntity<Optional<Identification>> findByDescripcionIdentification(@PathVariable("descripcionIdentification") String descripcionIdentification) {
+    @GetMapping("/descripcionidentification/{descripcionidentification}")
+    public ResponseEntity<Optional<Identification>> findByDescripcionIdentification(@PathVariable("descripcionidentification") String descripcionIdentification) {
         try {
             Optional<Identification> identification = identificationService.findByDescripcionIdentification(descripcionIdentification);
             return ResponseEntity.ok(identification);
@@ -70,7 +70,7 @@ public class IdentificationController {
     }
 
 
-    @PostMapping("/postIdentification")
+    @PostMapping("/")
     public ResponseEntity<Identification> createIdentification(@RequestBody Identification identification) {
         try {
             Identification createdIdentification = identificationService.createIdentification(identification);
@@ -81,8 +81,8 @@ public class IdentificationController {
     }
 
 
-    @PutMapping("/putIdentification/{idIdentification}")
-    public ResponseEntity<Identification> updateIdentification(@PathVariable("idIdentification") Long idIdentification, @RequestBody Identification identification) {
+    @PutMapping("/{ididentification}")
+    public ResponseEntity<Identification> updateIdentification(@PathVariable("ididentification") Long idIdentification, @RequestBody Identification identification) {
         try {
             Identification updatedIdentification = identificationService.updateIdentification(idIdentification, identification);
             return ResponseEntity.ok(updatedIdentification);
@@ -92,8 +92,8 @@ public class IdentificationController {
     }
 
 
-    @DeleteMapping("/deleteIdentification/{idIdentification}")
-    public ResponseEntity<Void> deleteIdentification(@PathVariable("idIdentification") Long idIdentification) {
+    @DeleteMapping("/{ididentification}")
+    public ResponseEntity<Void> deleteIdentification(@PathVariable("ididentification") Long idIdentification) {
         try {
             identificationService.deleteIdentification(idIdentification);
             return ResponseEntity.noContent().build();

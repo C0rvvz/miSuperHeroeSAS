@@ -27,6 +27,10 @@ public class Hero {
     @JsonManagedReference
     private List<Power> powers;
 
+    @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Nivel> niveles;
+
     public Hero() {
     }
 
